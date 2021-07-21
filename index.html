@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    //video tag has three types control loop and autoplay
+    <video controls loop autoplay></video>
+
+    <script>
+       
+      let videoPlayer=document.querySelector("video");
+     //mediaDevices is a keyword of navigator function which is used to get access of the media video true and audio true shows that both can be
+     //used but the browser will ask for permission
+     //this function returns a promise
+     let promiseToUseCamera = navigator.mediaDevices.getUserMedia({
+       video: true,
+       audio: true,
+     });
+     promiseToUseCamera.then(function (mediaStream){
+        //video tag needs source to play video but we have object mediaStream so we give mediaStream as a source to play video,
+        //for this srcObject is used    
+        videoPlayer.srcObject= mediaStream;
+
+     })
+       .catch(function(){
+           //agr user ne access deny kiya to ye show hoga
+           console.log("user has denied the access of the camera");
+       });
+
+    </script>
+</body>
+</html>
