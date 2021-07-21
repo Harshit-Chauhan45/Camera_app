@@ -38,6 +38,7 @@
         //video tag needs source to play video but we have object mediaStream so we give mediaStream as a source to play video,
         //for this srcObject is used    
         videoPlayer.srcObject= mediaStream;
+        mediaRecorder = new MediaRecorder(mediaStream);
         mediaRecorder.addEventListener("dataavailable",function(e){
             chunks.push(e.data);
         });
