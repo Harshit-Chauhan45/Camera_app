@@ -1,67 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-    <video controls loop autoplay></video>
-    <button id="record">Record</button>
-    <script>
-       let recordBtn=document.querySelector("#record");
-       let mediaRecorder;
-       //chunks is array which stores video recording chunks
-       let chunks=[];
-       let isRecording=false;
-      let videoPlayer=document.querySelector("video");
-      recordBtn.addEventListener("click",function(){
-          if(isRecording){
-              mediaRecorder.stop();
-              isRecording=false;
-          }
-          else{
-              mediaRecorder.start();
-              isRecording=true;
-          }
-      });
-     //mediaDevices is a keyword of navigator function which is used to get access of the media video true and audio true shows that both can be
-     //used but the browser will ask for permission
-     //this function returns a promise
-     let promiseToUseCamera = navigator.mediaDevices.getUserMedia({
-       video: true,
-       audio: true,
-     });
-     promiseToUseCamera.then(function (mediaStream){
-        //video tag needs source to play video but we have object mediaStream so we give mediaStream as a source to play video,
-        //for this srcObject is used    
-        videoPlayer.srcObject= mediaStream;
-        mediaRecorder = new MediaRecorder(mediaStream);
-        mediaRecorder.addEventListener("dataavailable",function(e){
-            chunks.push(e.data);
-        });
-        mediaRecorder.addEventListener("stop",function(e){
-            //blob is a attribute for big raw file
-            let blob=new Blob(chunks,{type: "video/mp4"});
-            //after blob is created we will empty chunk array for new recording
-            chunks=[];
-            //this function creates any object into url
-            let link=URL.createObjectURL(blob);
-            //then we give this link to a tag so that it automatically downloads the recorded video when the recoring is stopped
-            let a=document.createElement("a");
-            a.href=link;
-            a.download="video.mp4";
-            a.click(); 
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="video-container">
+      <video autoplay style="transform: scale(1)"></video>
+    </div>
 
-        });
-     })
-       .catch(function(){
-           //agr user ne access deny kiya to ye show hoga
-           console.log("user has denied the access of the camera");
-       });
+    <button id="record"><span></span></button>
+    <button id="capture"><span></span></button>
+    <button id="gallery">Gallery</button>
 
-    </script>
-</body>
+    <div class="filters">
+      <div class="filter" style="background-color: #fab0a055"></div>
+      <div class="filter" style="background-color: #a29bfe4b"></div>
+      <div class="filter"></div>
+    </div>
+
+    <div class="zoom">
+      <div class="in">+</div>
+      <div class="out">-</div>
+    </div>
+
+    <script src="dbScript.js"></script>
+    <script src="script.js"></script>
+  </body>
 </html>
